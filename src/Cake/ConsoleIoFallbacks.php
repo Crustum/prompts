@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Crustum\Prompts\Cake;
 
 use Cake\Console\ConsoleIo;
-use Cake\Console\Helper\BannerHelper;
 use Cake\Console\Helper\ProgressHelper as CakeProgressHelper;
 use Cake\Console\Helper\TableHelper as CakeTableHelper;
 use Closure;
@@ -599,23 +598,13 @@ class ConsoleIoFallbacks
         $type = $note->type;
 
         if (in_array($type, ['intro', 'outro'], true)) {
-            $banner = $io->helper('Banner');
-            if (!$banner instanceof BannerHelper) {
-                throw new RuntimeException('Banner helper is not available.');
-            }
-
-            $banner->withStyle('success.bg')->output([$note->message]);
+            static::outputBanner($io, 'success.bg', $note->message);
 
             return;
         }
 
         if ($type === 'alert') {
-            $banner = $io->helper('Banner');
-            if (!$banner instanceof BannerHelper) {
-                throw new RuntimeException('Banner helper is not available.');
-            }
-
-            $banner->withStyle('error.bg')->output([$note->message]);
+            static::outputBanner($io, 'error.bg', $note->message);
 
             return;
         }
@@ -639,6 +628,21 @@ class ConsoleIoFallbacks
         }
 
         $io->out($note->message);
+    }
+
+    /**
+     * Render a message with Cake's Banner helper.
+     *
+     * @param \Cake\Console\ConsoleIo $io Console IO
+     * @param string $style Banner style name
+     * @param string $message Banner body
+     * @return void
+     */
+    protected static function outputBanner(ConsoleIo $io, string $style, string $message): void
+    {
+        /** @var \Cake\Console\Helper\BannerHelper $banner */
+        $banner = $io->helper('Banner');
+        $banner->withStyle($style)->output([$message]);
     }
 
     /**

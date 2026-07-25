@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\Config\RectorConfig;
@@ -52,6 +53,7 @@ return RectorConfig::configure()
         SafeDeclareStrictTypesRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         IfIssetToCoalescingRector::class,
+        FlipTypeControlToUseExclusiveTypeRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,
