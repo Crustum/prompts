@@ -476,7 +476,9 @@ class ConsoleIoFallbacks
         $io->out($label);
 
         foreach ($labels as $index => $optionLabel) {
-            $io->out(sprintf('  %d. %s', $index + 1, $optionLabel));
+            $key = $keys[$index];
+            $marker = in_array($key, $default, true) ? 'x' : ' ';
+            $io->out(sprintf('  [%s] %d. %s', $marker, $index + 1, $optionLabel));
         }
 
         $defaultNumbers = [];
@@ -488,7 +490,7 @@ class ConsoleIoFallbacks
         }
 
         $defaultInput = $defaultNumbers !== [] ? implode(',', $defaultNumbers) : '';
-        $input = trim($io->ask('Enter numbers separated by commas', $defaultInput));
+        $input = trim($io->ask('Enter numbers separated by commas, or "all"', $defaultInput));
 
         if ($input === '') {
             return [];
@@ -782,7 +784,11 @@ class ConsoleIoFallbacks
         }
 
         $columns = min(3, count($grid->items));
-        $rows = array_chunk($grid->items, $columns);
+        $rows = [];
+
+        foreach (array_chunk($grid->items, $columns) as $chunk) {
+            $rows[] = array_pad($chunk, $columns, '');
+        }
 
         (new CakeTableHelper(static::requireIo()))
             ->setConfig(['headers' => false])

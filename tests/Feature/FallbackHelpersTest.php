@@ -94,12 +94,23 @@ it('runs Select through Cake askChoice fallback', function (): void {
 });
 
 it('runs MultiSelect through numbered Cake input fallback', function (): void {
-    $result = promptsIo(['1,3'])->helper(promptsHelper('MultiSelect'))->run([
+    [$io, $stdout] = promptsIoWithStdout(['1,3']);
+
+    $result = $io->helper(promptsHelper('MultiSelect'))->run([
         'label' => 'Colors',
-        'options' => ['Red', 'Green', 'Blue'],
+        'options' => [
+            'red' => 'Red',
+            'green' => 'Green',
+            'blue' => 'Blue',
+        ],
+        'default' => ['red', 'green'],
     ]);
 
-    expect($result)->toBe(['Red', 'Blue']);
+    expect($result)->toBe(['red', 'blue']);
+    expect($stdout->output())->toContain('[x] 1. Red');
+    expect($stdout->output())->toContain('[x] 2. Green');
+    expect($stdout->output())->toContain('[ ] 3. Blue');
+    expect($stdout->output())->toContain('or "all"');
 });
 
 it('runs Pause through Cake ask fallback', function (): void {
@@ -143,6 +154,46 @@ it('renders Table through Cake Table helper fallback', function (): void {
 
     expect($stdout->output())->toContain('Ada')
         ->and($stdout->output())->toContain('Engineer');
+});
+
+it('pads the last Grid row so Cake table borders stay aligned', function (): void {
+    [$io, $stdout] = promptsIoWithStdout();
+
+    $io->helper(promptsHelper('Grid'))->run([
+        'items' => [
+            'one-long-name',
+            'two',
+            'three-medium',
+            'four',
+        ],
+    ]);
+
+    $output = $stdout->output();
+    $lines = array_values(array_filter(
+        preg_split("/\r\n|\n|\r/", $output) ?: [],
+        static fn(string $line): bool => str_contains($line, '+') || str_contains($line, '|'),
+    ));
+
+    expect($output)->toContain('four');
+
+    $borderLines = array_values(array_filter(
+        $lines,
+        static fn(string $line): bool => str_starts_with(ltrim($line), '+'),
+    ));
+    $dataLines = array_values(array_filter(
+        $lines,
+        static fn(string $line): bool => str_starts_with(ltrim($line), '|'),
+    ));
+
+    expect($borderLines)->not->toBeEmpty()
+        ->and($dataLines)->not->toBeEmpty();
+
+    $firstBorder = ltrim($borderLines[0]);
+    $lastBorder = ltrim($borderLines[array_key_last($borderLines)]);
+    $lastData = ltrim($dataLines[array_key_last($dataLines)]);
+
+    expect($firstBorder)->toBe($lastBorder)
+        ->and(substr_count($lastData, '|'))->toBe(substr_count(ltrim($dataLines[0]), '|'));
 });
 
 it('runs Spin through ConsoleIoFallbacks', function (): void {
