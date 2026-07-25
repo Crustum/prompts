@@ -18,7 +18,7 @@ class PromptsPlugin extends BasePlugin
      *
      * @var string|null
      */
-    protected ?string $name = 'Prompts';
+    protected ?string $name = 'Crustum/Prompts';
 
     /**
      * Console commands are not required for the prompts library itself.
