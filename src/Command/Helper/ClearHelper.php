@@ -1,46 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Crustum\Prompts\Command\Helper;
+use Cake\Core\Configure;
+use Crustum\Prompts\Console\Helper\ClearHelper;
+use function Cake\Core\deprecationWarning;
 
-use Cake\Console\Helper;
-use Crustum\Prompts\Cake\ConsoleIoFallbacks;
-use Laravel\Prompts\Clear;
-use Override;
-
-/**
- * Cake Console helper for Clear.
- */
-class ClearHelper extends Helper
-{
-    /**
-     * Clear the terminal.
-     *
-     * @param array<string, mixed> $args Unused
-     * @return mixed Always null
-     */
-    public function run(array $args = []): mixed
-    {
-        ConsoleIoFallbacks::setIo($this->_io);
-
-        if (Clear::shouldFallback()) {
-            ConsoleIoFallbacks::renderClear();
-        } else {
-            (new Clear())->display();
-        }
-
-        return null;
-    }
-
-    /**
-     * Clear the terminal.
-     *
-     * @param array<string, mixed> $args Unused
-     * @return void
-     */
-    #[Override]
-    public function output(array $args): void
-    {
-        $this->run($args);
-    }
+if (version_compare(Configure::version(), '5.4.0', '>=')) {
+    deprecationWarning('5.4.0', 'Crustum\Prompts\Command\Helper\ClearHelper is deprecated. Use Crustum\Prompts\Console\Helper\ClearHelper instead.');
 }
+
+class_alias(ClearHelper::class, 'Crustum\Prompts\Command\Helper\ClearHelper');

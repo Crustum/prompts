@@ -1,45 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Crustum\Prompts\Command\Helper;
+use Cake\Core\Configure;
+use Crustum\Prompts\Console\Helper\OutroHelper;
+use function Cake\Core\deprecationWarning;
 
-use Cake\Console\Helper;
-use Crustum\Prompts\Cake\ConsoleIoFallbacks;
-use Laravel\Prompts\Note;
-use Override;
-
-/**
- * Cake Console helper for outro notes.
- *
- * Expected `$args` keys:
- * - `message` (string, required) — outro message
- */
-class OutroHelper extends Helper
-{
-    /**
-     * Display an outro note.
-     *
-     * @param array<string, mixed> $args Note configuration (see class docblock)
-     * @return mixed Always null
-     */
-    public function run(array $args): mixed
-    {
-        ConsoleIoFallbacks::setIo($this->_io);
-
-        (new Note((string)($args['message'] ?? ''), 'outro'))->display();
-
-        return null;
-    }
-
-    /**
-     * Display an outro note.
-     *
-     * @param array<string, mixed> $args Note configuration (see class docblock)
-     * @return void
-     */
-    #[Override]
-    public function output(array $args): void
-    {
-        $this->run($args);
-    }
+if (version_compare(Configure::version(), '5.4.0', '>=')) {
+    deprecationWarning('5.4.0', 'Crustum\Prompts\Command\Helper\OutroHelper is deprecated. Use Crustum\Prompts\Console\Helper\OutroHelper instead.');
 }
+
+class_alias(OutroHelper::class, 'Crustum\Prompts\Command\Helper\OutroHelper');
