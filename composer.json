@@ -19,8 +19,8 @@
     "require": {
         "php": ">=8.2",
         "ext-mbstring": "*",
-        "cakephp/cakephp": "^5.0",
-        "laravel/prompts": "^0.3"
+        "cakephp/cakephp": "^5.4",
+        "laravel/prompts": "^0.3.21"
     },
     "require-dev": {
         "cakephp/bake": "^3.0",
@@ -28,9 +28,10 @@
         "phpunit/phpunit": "^11.5.5 || ^12.5",
         "pestphp/pest": "^3.8 || ^4.1",
         "pestphp/pest-plugin-type-coverage": "^3.6 || ^4.0",
-        "cakephp/cakephp-codesniffer": "^5.0",
-        "phpstan/phpstan": "^2.1",
-        "rector/rector": "^2.5",
+        "cakephp/cakephp-codesniffer": "^5.2",
+        "squizlabs/php_codesniffer": "^3.10",
+        "phpstan/phpstan": "^2.2.2,<2.2.6",
+        "rector/rector": "^2.5.7",
         "mockery/mockery": "^1.6"
     },
     "suggest": {
@@ -67,6 +68,11 @@
         "cs-fix": "phpcbf --standard=phpcs.xml src/",
         "test": "pest",
         "test:unit": "pest --testsuite=Unit",
+        "update:lowest": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-progress",
+        "test:lowest": [
+            "@update:lowest",
+            "@test"
+        ],
         "rector-check": "vendor/bin/rector process --dry-run",
         "rector-fix": "vendor/bin/rector process",
         "stan": "phpstan analyse src/",

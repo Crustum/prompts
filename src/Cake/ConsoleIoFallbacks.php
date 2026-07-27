@@ -751,7 +751,7 @@ class ConsoleIoFallbacks
      * Output a table using Cake's core Table helper.
      *
      * Instantiates Cake\Console\Helper\TableHelper directly to avoid colliding
-     * with this plugin's Table helper name.
+     * with this plugin's Table helper name. Prompts 1.2 targets Cake 5.4+.
      *
      * @param \Laravel\Prompts\Table $table Table instance
      * @return void
