@@ -19,11 +19,11 @@
     "require": {
         "php": ">=8.2",
         "ext-mbstring": "*",
-        "cakephp/cakephp": "^5.0 <5.4",
+        "cakephp/cakephp": "^5.4",
         "laravel/prompts": "^0.3.21"
     },
     "require-dev": {
-        "cakephp/bake": "^3.0 <3.8",
+        "cakephp/bake": "^3.0",
         "crustum/essentia": "^1.0",
         "phpunit/phpunit": "^11.5.5 || ^12.5",
         "pestphp/pest": "^3.8 || ^4.1",
@@ -85,11 +85,6 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "pestphp/pest-plugin": true
         },
-        "platform-check": false,
-        "audit": {
-            "ignore": [
-                "PKSA-wx2k-k564-z67n"
-            ]
-        }
+        "platform-check": false
     }
 }
