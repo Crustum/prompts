@@ -34,7 +34,7 @@ class PromptsPlugin extends BasePlugin
      * ConsoleIoFallbacks::setIo() from commands/helpers before prompting when
      * fallbacks may run.
      *
-     * @param \Cake\Core\PluginApplicationInterface $app Host application
+     * @param \Cake\Core\PluginApplicationInterface<mixed> $app Host application
      * @return void
      */
     #[Override]

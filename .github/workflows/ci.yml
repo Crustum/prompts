@@ -61,7 +61,12 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
 
     - name: composer install
-      run: composer install --prefer-dist --no-progress
+      run: |
+        if [[ "${{ matrix.dependencies }}" == 'lowest' ]]; then
+          composer update --prefer-lowest --prefer-stable --prefer-dist --no-progress
+        else
+          composer install --prefer-dist --no-progress
+        fi
 
     - name: Setup problem matchers for PHPUnit
       if: matrix.php-version == '8.2' && matrix.db-type == 'mysql'

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Crustum\Prompts\Cake;
 
+use Cake\Command\Helper\ProgressHelper as CakeProgressHelper;
+use Cake\Command\Helper\TableHelper as CakeTableHelper;
 use Cake\Console\ConsoleIo;
-use Cake\Console\Helper\ProgressHelper as CakeProgressHelper;
-use Cake\Console\Helper\TableHelper as CakeTableHelper;
 use Closure;
 use Laravel\Prompts\AutoCompletePrompt;
 use Laravel\Prompts\Callout;
@@ -640,7 +640,7 @@ class ConsoleIoFallbacks
      */
     protected static function outputBanner(ConsoleIo $io, string $style, string $message): void
     {
-        /** @var \Cake\Console\Helper\BannerHelper $banner */
+        /** @var \Cake\Command\Helper\BannerHelper $banner */
         $banner = $io->helper('Banner');
         $banner->withStyle($style)->output([$message]);
     }
@@ -750,8 +750,8 @@ class ConsoleIoFallbacks
     /**
      * Output a table using Cake's core Table helper.
      *
-     * Instantiates Cake\Console\Helper\TableHelper directly to avoid colliding
-     * with this plugin's Table helper name.
+     * Instantiates Cake\Command\Helper\TableHelper directly to avoid colliding
+     * with this plugin's Table helper name. Prompts 1.1 targets Cake before 5.4.
      *
      * @param \Laravel\Prompts\Table $table Table instance
      * @return void
