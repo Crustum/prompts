@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Crustum\Prompts\Cake;
 
-use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleIoInterface;
 use Cake\Console\Helper\ProgressHelper as CakeProgressHelper;
 use Cake\Console\Helper\TableHelper as CakeTableHelper;
 use Closure;
@@ -54,9 +54,9 @@ class ConsoleIoFallbacks
     /**
      * Shared ConsoleIo used by registered fallbacks.
      *
-     * @var \Cake\Console\ConsoleIo|null
+     * @var \Cake\Console\ConsoleIoInterface|null
      */
-    protected static ?ConsoleIo $io = null;
+    protected static ?ConsoleIoInterface $io = null;
 
     /**
      * Set the ConsoleIo instance used by fallbacks.
@@ -64,10 +64,10 @@ class ConsoleIoFallbacks
      * Enables Laravel Prompts fallbacks on Windows and when the ConsoleIo is
      * non-interactive, matching upstream's unsupported-environment guidance.
      *
-     * @param \Cake\Console\ConsoleIo $io Console IO
+     * @param \Cake\Console\ConsoleIoInterface $io Console IO
      * @return void
      */
-    public static function setIo(ConsoleIo $io): void
+    public static function setIo(ConsoleIoInterface $io): void
     {
         static::$io = $io;
         static::enableEnvironmentFallbacks($io);
@@ -79,15 +79,19 @@ class ConsoleIoFallbacks
      * Always enables on Windows. When a ConsoleIo is provided, also enables when
      * that IO is non-interactive. Uses Prompt::fallbackWhen() which is sticky.
      *
-     * @param \Cake\Console\ConsoleIo|null $io Optional ConsoleIo to inspect
+     * @param \Cake\Console\ConsoleIoInterface|null $io Optional ConsoleIo to inspect
      * @return void
      */
-    public static function enableEnvironmentFallbacks(?ConsoleIo $io = null): void
+    public static function enableEnvironmentFallbacks(?ConsoleIoInterface $io = null): void
     {
         $nonInteractive = false;
-        if ($io instanceof ConsoleIo) {
-            $property = new ReflectionProperty(ConsoleIo::class, 'interactive');
-            $nonInteractive = $property->getValue($io) !== true;
+        if ($io !== null) {
+            try {
+                $property = new ReflectionProperty($io, 'interactive');
+                $nonInteractive = $property->getValue($io) !== true;
+            } catch (Throwable) {
+                $nonInteractive = false;
+            }
         }
 
         Prompt::fallbackWhen(PHP_OS_FAMILY === 'Windows' || $nonInteractive);
@@ -100,18 +104,18 @@ class ConsoleIoFallbacks
      */
     public static function hasIo(): bool
     {
-        return static::$io instanceof ConsoleIo;
+        return static::$io instanceof ConsoleIoInterface;
     }
 
     /**
      * Require a ConsoleIo instance to have been set.
      *
-     * @return \Cake\Console\ConsoleIo
+     * @return \Cake\Console\ConsoleIoInterface
      * @throws \RuntimeException When no ConsoleIo has been registered
      */
-    public static function requireIo(): ConsoleIo
+    public static function requireIo(): ConsoleIoInterface
     {
-        if (!static::$io instanceof ConsoleIo) {
+        if (!static::$io instanceof ConsoleIoInterface) {
             throw new RuntimeException(
                 'No ConsoleIo registered for prompt fallbacks. Call ConsoleIoFallbacks::setIo() first.',
             );
@@ -126,12 +130,12 @@ class ConsoleIoFallbacks
      * When `$io` is provided it is stored via setIo(). Fallbacks call requireIo() at runtime
      * so helpers may call setIo() later before prompting.
      *
-     * @param \Cake\Console\ConsoleIo|null $io Optional ConsoleIo to bind immediately
+     * @param \Cake\Console\ConsoleIoInterface|null $io Optional ConsoleIo to bind immediately
      * @return void
      */
-    public static function registerDefaults(?ConsoleIo $io = null): void
+    public static function registerDefaults(?ConsoleIoInterface $io = null): void
     {
-        if ($io instanceof ConsoleIo) {
+        if ($io instanceof ConsoleIoInterface) {
             static::setIo($io);
         } else {
             static::enableEnvironmentFallbacks();
@@ -412,14 +416,14 @@ class ConsoleIoFallbacks
     /**
      * Ask for a single selection and map the answer back to its option key.
      *
-     * @param \Cake\Console\ConsoleIo $io Console IO
+     * @param \Cake\Console\ConsoleIoInterface $io Console IO
      * @param string $label Prompt label
      * @param array<int|string, string> $options Selectable options
      * @param string|int|null $default Default option key
      * @return string|int|null Selected key or value
      */
     protected static function askSelectKey(
-        ConsoleIo $io,
+        ConsoleIoInterface $io,
         string $label,
         array $options,
         int|string|null $default = null,
@@ -452,14 +456,14 @@ class ConsoleIoFallbacks
     /**
      * Ask for multiple selections using numbered comma-separated input.
      *
-     * @param \Cake\Console\ConsoleIo $io Console IO
+     * @param \Cake\Console\ConsoleIoInterface $io Console IO
      * @param string $label Prompt label
      * @param array<int|string, string> $options Selectable options
      * @param array<int|string> $default Default selected keys
      * @return array<int|string> Selected keys
      */
     protected static function askMultiNumbers(
-        ConsoleIo $io,
+        ConsoleIoInterface $io,
         string $label,
         array $options,
         array $default = [],
@@ -633,12 +637,12 @@ class ConsoleIoFallbacks
     /**
      * Render a message with Cake's Banner helper.
      *
-     * @param \Cake\Console\ConsoleIo $io Console IO
+     * @param \Cake\Console\ConsoleIoInterface $io Console IO
      * @param string $style Banner style name
      * @param string $message Banner body
      * @return void
      */
-    protected static function outputBanner(ConsoleIo $io, string $style, string $message): void
+    protected static function outputBanner(ConsoleIoInterface $io, string $style, string $message): void
     {
         /** @var \Cake\Console\Helper\BannerHelper $banner */
         $banner = $io->helper('Banner');
