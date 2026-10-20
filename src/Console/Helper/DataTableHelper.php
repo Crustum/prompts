@@ -34,7 +34,7 @@ class DataTableHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $headers = $args['headers'] ?? [];
         if ($headers instanceof Collection) {

@@ -32,7 +32,7 @@ class ConfirmHelper extends Helper
      */
     public function run(array $args): bool
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         return (new ConfirmPrompt(
             label: (string)($args['label'] ?? ''),

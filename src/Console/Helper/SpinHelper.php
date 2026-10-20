@@ -28,7 +28,7 @@ class SpinHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $callback = $this->requireNullaryCallback($args);
 

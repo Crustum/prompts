@@ -30,7 +30,7 @@ class TaskHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $subLabel = $args['subLabel'] ?? null;
 

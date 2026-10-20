@@ -17,22 +17,21 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.5",
         "ext-mbstring": "*",
-        "cakephp/cakephp": "^5.4",
+        "cakephp/cakephp": "6.x-dev",
         "laravel/prompts": "^0.3.21"
     },
     "require-dev": {
-        "cakephp/bake": "^3.0",
-        "crustum/essentia": "^1.0",
-        "phpunit/phpunit": "^11.5.5 || ^12.5",
+        "cakephp/bake": "4.x-dev",
+        "cakephp/cakephp-codesniffer": "6.x-dev",
+        "mockery/mockery": "^1.6",
         "pestphp/pest": "^3.8 || ^4.1",
         "pestphp/pest-plugin-type-coverage": "^3.6 || ^4.0",
-        "cakephp/cakephp-codesniffer": "^5.2",
-        "squizlabs/php_codesniffer": "^3.10",
         "phpstan/phpstan": "^2.3",
-        "rector/rector": "^2.7",
-        "mockery/mockery": "^1.6"
+        "phpunit/phpunit": "^11.5.5 || ^12.5 | ^13.0",
+        "squizlabs/php_codesniffer": "^4.0",
+        "rector/rector": "^2.7"
     },
     "suggest": {
         "ext-pcntl": "Required for the spinner to be animated."

@@ -31,7 +31,7 @@ class TextHelper extends Helper
      */
     public function run(array $args): string
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         return (new TextPrompt(
             label: (string)($args['label'] ?? ''),

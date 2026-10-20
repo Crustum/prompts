@@ -25,7 +25,7 @@ class TableHelper extends Helper
      */
     public function run(array $args): null
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $headers = $args['headers'] ?? [];
         if ($headers instanceof Collection) {

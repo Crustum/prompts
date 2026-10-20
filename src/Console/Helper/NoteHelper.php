@@ -25,7 +25,7 @@ class NoteHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $type = $args['type'] ?? null;
 

@@ -26,7 +26,7 @@ class GridHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $items = $args['items'] ?? [];
         if ($items instanceof Collection) {

@@ -29,7 +29,7 @@ class ProgressHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $steps = $args['steps'] ?? 0;
         if (!is_iterable($steps) && !is_int($steps)) {

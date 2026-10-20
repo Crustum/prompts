@@ -33,7 +33,7 @@ class AutoCompleteHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $options = $args['options'] ?? [];
         if ($options instanceof Collection) {

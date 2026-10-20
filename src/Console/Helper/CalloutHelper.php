@@ -27,7 +27,7 @@ class CalloutHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         $content = $args['content'] ?? '';
         if (!is_string($content) && !is_array($content)) {

@@ -24,7 +24,7 @@ class InfoHelper extends Helper
      */
     public function run(array $args): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         (new Note((string)($args['message'] ?? ''), 'info'))->display();
 

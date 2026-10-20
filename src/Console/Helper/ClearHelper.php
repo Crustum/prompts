@@ -21,7 +21,7 @@ class ClearHelper extends Helper
      */
     public function run(array $args = []): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         if (Clear::shouldFallback()) {
             ConsoleIoFallbacks::renderClear();

@@ -21,7 +21,7 @@ class StreamHelper extends Helper
      */
     public function run(array $args = []): mixed
     {
-        ConsoleIoFallbacks::setIo($this->_io);
+        ConsoleIoFallbacks::setIo($this->io);
 
         return new Stream();
     }
