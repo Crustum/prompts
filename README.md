@@ -6,7 +6,7 @@ It provides TTY-friendly forms and inputs including text, select, multiselect, c
 
 ## Requirements
 
-* PHP 8.2+
+* PHP 8.5+
 
 See [Versions.md](docs/Versions.md) for the supported CakePHP versions.
 
