@@ -85,7 +85,7 @@ class ConsoleIoFallbacks
     public static function enableEnvironmentFallbacks(?ConsoleIoInterface $io = null): void
     {
         $nonInteractive = false;
-        if ($io !== null) {
+        if ($io instanceof ConsoleIoInterface) {
             try {
                 $property = new ReflectionProperty($io, 'interactive');
                 $nonInteractive = $property->getValue($io) !== true;
